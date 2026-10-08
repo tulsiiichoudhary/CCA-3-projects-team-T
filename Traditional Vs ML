@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 
 # 1. Read input from Excel file
-excel_file = "loan_approval_data.xlsx"
+excel_file = "Loan approval data.xlsx"
 df = pd.read_excel(excel_file)
 print("Data loaded successfully from Excel:")
 print(df.head())
