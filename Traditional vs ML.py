@@ -1,36 +1,28 @@
-# Name: Tulsi Choudhary
-# PRN: 1302250705
-# Task: Traditional Programming vs ML from Excel Input
+# Name: Mohammad Rehan
+# PRN:1302250270
+# Task: Traditional vs ML - Debt-to-Income Constraint
 
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 
-# 1. Read input from Excel file
 excel_file = "Loan approval data.xlsx"
 df = pd.read_excel(excel_file)
-print("Data loaded successfully from Excel:")
-print(df.head())
 
-# Features and Target
 X = df[["Income", "Credit_Score", "Existing_Loan"]]
 y = df["Approved"]
 
-# 2. Machine Learning Approach (Decision Tree)
-model = DecisionTreeClassifier(max_depth=3, random_state=42)
+model = DecisionTreeClassifier(max_depth=3, min_samples_split=2)
 model.fit(X, y)
 
-# 3. Traditional Rule-Based Programming Approach
 def traditional_rules(income, credit_score, existing_loan):
-    if income >= 50000 and credit_score >= 700 and existing_loan <= 20000:
+    dti_ratio = existing_loan / income
+    if dti_ratio < 0.35 and credit_score >= 700:
         return "Approved (Traditional Rule)"
     return "Rejected (Traditional Rule)"
 
-# Testing sample application
-sample_applicant = [[65000, 740, 12000]]
-ml_decision = model.predict(sample_applicant)[0]
-ml_result = "Approved (ML Model)" if ml_decision == 1 else "Rejected (ML Model)"
-trad_result = traditional_rules(65000, 740, 12000)
+applicant = [[60000, 715, 18000]]
+ml_res = "Approved (ML)" if model.predict(applicant)[0] == 1 else "Rejected (ML)"
+trad_res = traditional_rules(60000, 715, 18000)
 
-print("\n--- Decision Comparison ---")
-print(f"Traditional Decision : {trad_result}")
-print(f"ML Decision          : {ml_result}")
+print(f"Traditional Decision : {trad_res}")
+print(f"ML Decision          : {ml_res}")
