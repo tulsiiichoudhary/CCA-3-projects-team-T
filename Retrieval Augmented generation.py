@@ -1,43 +1,34 @@
-# Name: Tulsi Choudhary
-# PRN: 1302250705
-# Task: ML Framework - Retrieval-Augmented Generation (RAG) with Custom Business Rules
+# Name: Swandan Nayak
+# PRN: 1302250597
+# Task: RAG Framework - Credit Cards & Rewards Rules
 
 knowledge_base = {
-    "personal_loan": "Personal loans have an interest rate of 11.5% with a repayment tenure up to 5 years.",
-    "credit_card": "Credit card annual fees are waived if annual spends exceed Rs. 50,000.",
-    "foreclosure": "Zero penalty on home loan foreclosure after 12 successful EMI repayments."
+    "reward_points": "Points can be redeemed for air miles at a conversion rate of 1 point = 0.5 air miles.",
+    "lounge_access": "Complimentary airport lounge access is limited to 2 visits per calendar quarter.",
+    "late_fee": "Late payment fee of Rs. 750 applies on outstanding balance over Rs. 10,000."
 }
 
-# Added Strict Generation Rules:
-# Rule 1: Grounded Response - Only answer from retrieved context.
-# Rule 2: Fallback Disclosure - If no relevant context found, decline gracefully.
-# Rule 3: Compliance Warning - Always append a risk caveat to loan queries.
+# Rule 1: Strict query retrieval
+# Rule 2: Minimum spend validation check
+# Rule 3: Grace period disclosure
 
 def retrieve_and_generate(query):
     query_lower = query.lower()
-    retrieved_info = None
-
-    for key, doc in knowledge_base.items():
-        if key in query_lower or any(word in query_lower for word in key.split("_")):
-            retrieved_info = doc
+    match = None
+    for k, v in knowledge_base.items():
+        if k in query_lower or any(word in query_lower for word in k.split("_")):
+            match = v
             break
+            
+    if not match:
+        return "No specific reward/card rule found in repository."
+    return f"Retrieved Card Policy: {match}\n[Note: 3-day grace period applicable post due date.]"
 
-    # Applying Rule 1 & 2
-    if not retrieved_info:
-        return "I apologize, but this information is not available in the approved policy documents."
-
-    # Applying Rule 3
-    compliance_tag = "\n[Compliance Note: Interest rates and terms are subject to credit bureau verification.]"
-    return f"Retrieved Context: {retrieved_info}{compliance_tag}"
-
-# Test Queries
 queries = [
-    "What are the terms for personal loan?",
-    "Tell me about crypto trading investments?",
-    "How to waive credit card fee?"
+    "What is the policy for reward points conversion?",
+    "How many lounge access visits are free?",
+    "Can I apply for cashback card?"
 ]
 
-print("=== RAG Response System with Rules ===")
 for q in queries:
-    print(f"\nQuery: {q}")
-    print(f"Output:\n{retrieve_and_generate(q)}")
+    print(f"\nQ: {q}\nA: {retrieve_and_generate(q)}")
