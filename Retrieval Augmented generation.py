@@ -1,43 +1,34 @@
-# Name: Tulsi Choudhary
-# PRN: 1302250705
-# Task: ML Framework - Retrieval-Augmented Generation (RAG) with Custom Business Rules
+# Name: Parth Deshmukh
+# PRN: 1302250642
+# Task: RAG Framework - KYC & Document Verification Rules
 
 knowledge_base = {
-    "personal_loan": "Personal loans have an interest rate of 11.5% with a repayment tenure up to 5 years.",
-    "credit_card": "Credit card annual fees are waived if annual spends exceed Rs. 50,000.",
-    "foreclosure": "Zero penalty on home loan foreclosure after 12 successful EMI repayments."
+    "aadhaar_kyc": "Aadhaar e-KYC requires an active mobile number linked for OTP authentication.",
+    "pan_card": "Valid PAN is mandatory for all accounts with transactions exceeding Rs. 50,000.",
+    "address_proof": "Utility bills not older than 3 months are accepted as valid address proof."
 }
 
-# Added Strict Generation Rules:
-# Rule 1: Grounded Response - Only answer from retrieved context.
-# Rule 2: Fallback Disclosure - If no relevant context found, decline gracefully.
-# Rule 3: Compliance Warning - Always append a risk caveat to loan queries.
+# Rule 1: Strict match verification
+# Rule 2: Non-match fallback notification
+# Rule 3: Regulatory compliance disclaimer
 
 def retrieve_and_generate(query):
     query_lower = query.lower()
-    retrieved_info = None
-
-    for key, doc in knowledge_base.items():
-        if key in query_lower or any(word in query_lower for word in key.split("_")):
-            retrieved_info = doc
+    match = None
+    for k, v in knowledge_base.items():
+        if k in query_lower or any(word in query_lower for word in k.split("_")):
+            match = v
             break
+            
+    if not match:
+        return "Query not recognized under approved RBI KYC documentation policy."
+    return f"Retrieved Policy: {match}\n[Mandatory: Digital KYC must be refreshed every 2 years.]"
 
-    # Applying Rule 1 & 2
-    if not retrieved_info:
-        return "I apologize, but this information is not available in the approved policy documents."
-
-    # Applying Rule 3
-    compliance_tag = "\n[Compliance Note: Interest rates and terms are subject to credit bureau verification.]"
-    return f"Retrieved Context: {retrieved_info}{compliance_tag}"
-
-# Test Queries
 queries = [
-    "What are the terms for personal loan?",
-    "Tell me about crypto trading investments?",
-    "How to waive credit card fee?"
+    "Tell me about aadhaar kyc requirements?",
+    "Is PAN card required for large transfers?",
+    "Can I open demat account with driving license?"
 ]
 
-print("=== RAG Response System with Rules ===")
 for q in queries:
-    print(f"\nQuery: {q}")
-    print(f"Output:\n{retrieve_and_generate(q)}")
+    print(f"\nQ: {q}\nA: {retrieve_and_generate(q)}")
