@@ -3,7 +3,7 @@ AIML CCA-3 Collaborative Project: Traditional vs ML Programming, Hugging Face Se
 # CCA-3 Projects-Team T
 
 ### Group Members & Details:
-- Tulsi Choudhary (PRN: 1302250705 - Admin
+- Tulsi Choudhary (PRN: 1302250705) - Admin
 - Nitya Juneja (PRN: 1302250494)
 - Subham Sahu (PRN: 1302250465)
 - Deep Agarwal (PRN: 1302250670)
