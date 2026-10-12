@@ -1,43 +1,34 @@
-# Name: Tulsi Choudhary
-# PRN: 1302250705
-# Task: ML Framework - Retrieval-Augmented Generation (RAG) with Custom Business Rules
+# Name:Aman Vaswani
+# PRN: 1302250739
+# Task: RAG Framework - Digital Banking & Net Banking Limits
 
 knowledge_base = {
-    "personal_loan": "Personal loans have an interest rate of 11.5% with a repayment tenure up to 5 years.",
-    "credit_card": "Credit card annual fees are waived if annual spends exceed Rs. 50,000.",
-    "foreclosure": "Zero penalty on home loan foreclosure after 12 successful EMI repayments."
+    "neft_rtgs": "RTGS is available 24x7 with a minimum transaction threshold of Rs. 2,00,000.",
+    "imps_limit": "IMPS daily transaction ceiling is capped at Rs. 5,00,000 per user.",
+    "cooling_period": "New beneficiary addition requires a 2-hour cooling window before transfers."
 }
 
-# Added Strict Generation Rules:
-# Rule 1: Grounded Response - Only answer from retrieved context.
-# Rule 2: Fallback Disclosure - If no relevant context found, decline gracefully.
-# Rule 3: Compliance Warning - Always append a risk caveat to loan queries.
+# Rule 1: Limit validation rule
+# Rule 2: Security check rule
+# Rule 3: Fraud mitigation warning
 
 def retrieve_and_generate(query):
     query_lower = query.lower()
-    retrieved_info = None
-
-    for key, doc in knowledge_base.items():
-        if key in query_lower or any(word in query_lower for word in key.split("_")):
-            retrieved_info = doc
+    match = None
+    for k, v in knowledge_base.items():
+        if k in query_lower or any(word in query_lower for word in k.split("_")):
+            match = v
             break
+            
+    if not match:
+        return "Transaction limit rule not found."
+    return f"Retrieved Limit Policy: {match}\n[Security Notice: Never share OTP or UPI PIN for receiving funds.]"
 
-    # Applying Rule 1 & 2
-    if not retrieved_info:
-        return "I apologize, but this information is not available in the approved policy documents."
-
-    # Applying Rule 3
-    compliance_tag = "\n[Compliance Note: Interest rates and terms are subject to credit bureau verification.]"
-    return f"Retrieved Context: {retrieved_info}{compliance_tag}"
-
-# Test Queries
 queries = [
-    "What are the terms for personal loan?",
-    "Tell me about crypto trading investments?",
-    "How to waive credit card fee?"
+    "What is the cooling period for new beneficiary?",
+    "What is the imps limit per day?",
+    "Can I transfer funds internationally via IMPS?"
 ]
 
-print("=== RAG Response System with Rules ===")
 for q in queries:
-    print(f"\nQuery: {q}")
-    print(f"Output:\n{retrieve_and_generate(q)}")
+    print(f"\nQ: {q}\nA: {retrieve_and_generate(q)}")
