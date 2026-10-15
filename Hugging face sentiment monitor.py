@@ -1,23 +1,21 @@
-# Name: Tulsi Choudhary
-# PRN: 1302250705
-# Task: ML Framework - Hugging Face Sentiment Monitor with Multiple Problem Statements
+# Name: Swandan Nayak 
+# PRN: 1302250597
+# Task: Hugging Face Sentiment Monitor - Mobile App UI & UX
 
 from transformers import pipeline
 
-# Load pre-trained sentiment analysis model
 sentiment_analyzer = pipeline("sentiment-analysis")
 
-# Problem Statements (Customer Reviews, Loan Feedback, UPI Experience, App Support)
+# Member 3 Custom Scenarios: App Performance & Bug Reports
 test_statements = [
-    "The instant loan disbursement process was smooth and credited within 5 minutes!",
-    "My transaction failed at the payment gateway and my account was debited without a refund.",
-    "Customer support answered my ticket quickly, though the portal UI is slightly confusing.",
-    "Interest rates charged on this credit line are completely unfair and hidden in fine print.",
-    "Very secure authentication flow, feels safe managing savings on this fintech app."
+    "Biometric fingerprint login is ultra responsive and accurate.",
+    "App crashes immediately after typing OTP on Android 14.",
+    "Dashboard layout is very intuitive and easy for elderly users.",
+    "Frequent session timeouts make balance checking frustrating.",
+    "Dark mode looks sleek and saves battery."
 ]
 
-print("=== FinTech Sentiment Monitoring Results ===")
+print("=== Member 3 Sentiment Analysis ===")
 for idx, text in enumerate(test_statements, 1):
-    result = sentiment_analyzer(text)[0]
-    print(f"\nStatement {idx}: {text}")
-    print(f"Sentiment: {result['label']} | Confidence: {round(result['score'] * 100, 2)}%")
+    res = sentiment_analyzer(text)[0]
+    print(f"{idx}. {text} | Result: {res['label']} ({round(res['score']*100, 2)}%)")
