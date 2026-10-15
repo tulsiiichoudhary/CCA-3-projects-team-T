@@ -10,3 +10,4 @@ AIML CCA-3 Collaborative Project: Traditional vs ML Programming, Hugging Face Se
 - Rehan Mohammad (PRN: 1302250270)
 - Swandan Nayak (PRN: 1302250597)
 - Parth Deshmukh (PRN: 1302250642)
+  - aman vaswani (PRN:1302250739)
